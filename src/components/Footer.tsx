@@ -10,10 +10,24 @@ const Footer: React.FC = () => {
           {/* Company Info */}
           <div>
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                </svg>
+              <div className="w-12 h-12 rounded-lg overflow-hidden flex items-center justify-center">
+                <img 
+                  src="/gearbox.png" 
+                  alt="GearMaster Logo" 
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    // Fallback if image doesn't load
+                    e.currentTarget.style.display = 'none';
+                    const fallback = document.createElement('div');
+                    fallback.className = 'w-12 h-12 bg-primary rounded-lg flex items-center justify-center';
+                    fallback.innerHTML = `
+                      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                      </svg>
+                    `;
+                    e.currentTarget.parentNode?.appendChild(fallback);
+                  }}
+                />
               </div>
               <div>
                 <h3 className="text-xl font-bold">GearMaster</h3>
@@ -146,8 +160,8 @@ const Footer: React.FC = () => {
                 <svg className="w-5 h-5 text-primary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
-                <a href="mailto:info@gearmaster.co.za" className="text-gray-400 hover:text-primary transition-colors">
-                  info@gearmaster.co.za
+                <a href="mailto:jephiasmabuyane08@gmail.com" className="text-gray-400 hover:text-primary transition-colors">
+                  jephiasmabuyane08@gmail.com
                 </a>
               </li>
             </ul>
@@ -181,8 +195,23 @@ const Footer: React.FC = () => {
             </div>
           </div>
           
+          {/* Development Credit - Clean and simple */}
+          <div className="mt-6 pt-6 border-t border-gray-800 text-center">
+            <p className="text-gray-500 text-sm">
+              Developed by{' '}
+              <a 
+                href="https://nextgen-software.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary-dark transition-colors font-medium"
+              >
+                NextGen Software
+              </a>
+            </p>
+          </div>
+          
           {/* Accreditation Badge */}
-          <div className="mt-8 pt-8 border-t border-gray-800">
+          <div className="mt-6 pt-6 border-t border-gray-800">
             <div className="flex flex-wrap items-center justify-center gap-4 text-gray-400 text-sm">
               <span className="inline-flex items-center">
                 <svg className="w-4 h-4 text-green-500 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
