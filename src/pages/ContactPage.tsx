@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import emailjs from 'emailjs-com';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Button from '../components/ui/Button';
@@ -13,6 +14,7 @@ interface FormData {
 }
 
 const ContactPage: React.FC = () => {
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -24,6 +26,32 @@ const ContactPage: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showCalendly, setShowCalendly] = useState(false);
+
+  // EmailJS Configuration - Using your credentials
+  const EMAILJS_SERVICE_ID = 'service_g777v9h';
+  const EMAILJS_TEMPLATE_ID = 'template_1h2hysw'; // Replace with your actual template ID
+  const EMAILJS_USER_ID = 'CbwxXRe6jlSR8y-3F';
+
+  // Initialize EmailJS
+  useEffect(() => {
+    emailjs.init(EMAILJS_USER_ID);
+  }, []);
+
+  // Load Calendly script
+  useEffect(() => {
+    if (showCalendly) {
+      const script = document.createElement('script');
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      document.head.appendChild(script);
+
+      return () => {
+        document.head.removeChild(script);
+      };
+    }
+  }, [showCalendly]);
 
   const services = [
     'Gearbox Diagnostic',
@@ -43,32 +71,82 @@ const ContactPage: React.FC = () => {
       ...prev,
       [name]: value
     }));
+    // Clear error when user starts typing
+    if (error) setError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form
+    if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.service.trim() || !formData.vehicle.trim() || !formData.message.trim()) {
+      setError('Please fill in all required fields');
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    console.log('Form submitted:', formData);
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        service: '',
-        vehicle: '',
-        message: ''
-      });
-    }, 3000);
+    setError(null);
+
+    try {
+      // Send email using EmailJS
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone,
+        service: formData.service,
+        vehicle: formData.vehicle,
+        message: formData.message,
+        timestamp: new Date().toISOString(),
+        to_email: 'jephiasmabuyane08@gmail.com' // Your business email
+      };
+
+      const result = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams
+      );
+
+      console.log('Email sent successfully:', result.text);
+
+      // Show success message
+      setIsSubmitted(true);
+      
+      // Reset form after 5 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          service: '',
+          vehicle: '',
+          message: ''
+        });
+      }, 5000);
+
+    } catch (error: any) {
+      console.error('Email sending failed:', error);
+      
+      // Provide user-friendly error messages
+      if (error.text) {
+        setError(`Failed to send message: ${error.text}`);
+      } else if (error.status === 0) {
+        setError('Network error. Please check your internet connection and try again.');
+      } else {
+        setError('Failed to send message. Please try again or contact us directly at jephiasmabuyane08@gmail.com');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  // Calendly configuration - REPLACE WITH YOUR CLIENT'S CALENDLY URL
+  const CALENDLY_URL = 'https://calendly.com/jephiasmabuyane08'; // Client needs to provide this
 
   const contactInfo = [
     {
@@ -78,10 +156,11 @@ const ContactPage: React.FC = () => {
         </svg>
       ),
       title: 'Call Us',
-      details: ['(084) 889-9268', 'Emergency: (084) 889-9269'],
+      details: ['(084) 889-9268', 'Emergency: (084) 889-9268'],
       description: 'Available 24/7 for emergency breakdowns',
       link: 'tel:0848899268',
-      color: 'primary'
+      color: 'primary',
+      action: 'call'
     },
     {
       icon: (
@@ -90,10 +169,11 @@ const ContactPage: React.FC = () => {
         </svg>
       ),
       title: 'Email Us',
-      details: ['info@gearmaster.co.za', 'service@gearmaster.co.za'],
+      details: ['jephiasmabuyane08@gmail.com'],
       description: 'Response within 2 hours during business hours',
-      link: 'mailto:info@gearmaster.co.za',
-      color: 'secondary'
+      link: 'mailto:jephiasmabuyane08@gmail.com',
+      color: 'secondary',
+      action: 'email'
     },
     {
       icon: (
@@ -106,19 +186,21 @@ const ContactPage: React.FC = () => {
       details: ['Unit 1-3, Verona Industrial Park', '23 Staal St, Randburg, 2169', 'Gauteng, South Africa'],
       description: 'Free on-site parking available',
       link: 'https://www.google.com/maps?q=Unit+1-3+Verona+Industrial+Park+23+Staal+St+Randburg+2169+Gauteng+South+Africa',
-      color: 'primary'
+      color: 'primary',
+      action: 'directions'
     },
     {
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
         </svg>
       ),
-      title: 'Business Hours',
-      details: ['Mon-Fri: 8:00 AM - 6:00 PM', 'Saturday: 9:00 AM - 1:00 PM', 'Sunday: Emergency Only'],
-      description: 'By appointment only',
+      title: 'Book Online',
+      details: ['Schedule Instantly', 'No Phone Calls', '24/7 Booking'],
+      description: 'Book your service appointment directly',
       link: null,
-      color: 'secondary'
+      color: 'secondary',
+      action: 'calendly'
     }
   ];
 
@@ -168,7 +250,16 @@ const ContactPage: React.FC = () => {
                   ))}
                 </div>
                 <p className="text-sm text-gray-500 mb-4">{info.description}</p>
-                {info.link && (
+                {info.action === 'calendly' ? (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={`border-secondary text-secondary hover:bg-secondary/10`}
+                    onClick={() => setShowCalendly(true)}
+                  >
+                    Schedule Appointment
+                  </Button>
+                ) : info.link ? (
                   <Button
                     variant="outline"
                     size="sm"
@@ -177,21 +268,233 @@ const ContactPage: React.FC = () => {
                         ? 'border-primary text-primary hover:bg-primary/10' 
                         : 'border-secondary text-secondary hover:bg-secondary/10'
                     }`}
-                    onClick={() => window.open(info.link!, info.link?.startsWith('mailto:') || info.link?.startsWith('tel:') ? '_self' : '_blank')}
+                    onClick={() => {
+                      if (info.action === 'call' || info.action === 'email') {
+                        window.location.href = info.link!;
+                      } else {
+                        window.open(info.link!, '_blank');
+                      }
+                    }}
                   >
-                    {info.link.startsWith('tel:') ? 'Call Now' : 
-                     info.link.startsWith('mailto:') ? 'Send Email' : 
+                    {info.action === 'call' ? 'Call Now' : 
+                     info.action === 'email' ? 'Send Email' : 
                      'Get Directions'}
                   </Button>
-                )}
+                ) : null}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact Form & Map */}
-      <section className="py-20 bg-gray-50">
+      {/* Calendly Popup Modal */}
+      {showCalendly && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+            <div className="p-4 border-b border-gray-200 flex justify-between items-center">
+              <h3 className="text-xl font-bold text-gray-900">Schedule Your Appointment</h3>
+              <button
+                onClick={() => setShowCalendly(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+            <div className="p-4">
+              {CALENDLY_URL ? (
+                <div 
+                  className="calendly-inline-widget" 
+                  data-url={CALENDLY_URL}
+                  style={{ 
+                    minWidth: '320px', 
+                    height: '600px',
+                    width: '100%'
+                  }}
+                ></div>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg className="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                  </div>
+                  <h4 className="text-xl font-bold text-gray-900 mb-3">Online Booking Setup Required</h4>
+                  <p className="text-gray-600 mb-6">
+                    The business owner needs to set up their Calendly account to enable online booking.
+                  </p>
+                  <Button
+                    variant="primary"
+                    onClick={() => window.open('https://calendly.com/signup', '_blank')}
+                  >
+                    Set Up Calendly Account
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Calendly Section */}
+      <section className="py-20 bg-gradient-to-r from-primary/5 to-secondary/5">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                Book Your <span className="text-gradient">Service Appointment</span>
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
+                Schedule your gearbox service or diagnostic at your convenience. Choose a time that works best for you.
+              </p>
+              <p className="text-gray-500 max-w-2xl mx-auto">
+                No phone call needed • Instant confirmation • 24/7 booking available
+              </p>
+            </div>
+            
+            {/* Calendly Booking Card */}
+            <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <div className="inline-flex items-center px-4 py-2 bg-primary/10 rounded-full mb-6">
+                    <span className="text-primary font-bold text-sm tracking-wider">INSTANT BOOKING</span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-gray-900">Book Your Service Online</h3>
+                  <ul className="space-y-4 mb-8">
+                    <li className="flex items-start">
+                      <svg className="w-6 h-6 text-green-500 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      <div>
+                        <p className="font-medium text-gray-900">Choose Your Time</p>
+                        <p className="text-gray-600 text-sm">Select from available slots that fit your schedule</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <svg className="w-6 h-6 text-green-500 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      <div>
+                        <p className="font-medium text-gray-900">Instant Confirmation</p>
+                        <p className="text-gray-600 text-sm">Get immediate booking confirmation via email</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <svg className="w-6 h-6 text-green-500 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      <div>
+                        <p className="font-medium text-gray-900">Reminder Alerts</p>
+                        <p className="text-gray-600 text-sm">Receive SMS & email reminders before your appointment</p>
+                      </div>
+                    </li>
+                  </ul>
+                  
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onClick={() => setShowCalendly(true)}
+                    className="w-full md:w-auto"
+                    icon={
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                      </svg>
+                    }
+                  >
+                    Book Appointment Now
+                  </Button>
+                </div>
+                
+                <div className="bg-gray-50 rounded-xl p-6 border-2 border-dashed border-gray-300">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                      </svg>
+                    </div>
+                    <h4 className="text-xl font-bold text-gray-900 mb-3">How Online Booking Works</h4>
+                    
+                    <div className="space-y-4 mb-6">
+                      <div className="flex items-center">
+                        <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center mr-3">1</div>
+                        <p className="text-gray-700">Click "Book Appointment"</p>
+                      </div>
+                      <div className="flex items-center">
+                        <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center mr-3">2</div>
+                        <p className="text-gray-700">Select your preferred date & time</p>
+                      </div>
+                      <div className="flex items-center">
+                        <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center mr-3">3</div>
+                        <p className="text-gray-700">Enter your details</p>
+                      </div>
+                      <div className="flex items-center">
+                        <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center mr-3">4</div>
+                        <p className="text-gray-700">Get instant confirmation</p>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                      <p className="text-sm text-gray-700">
+                        <span className="font-bold">Note:</span> The booking calendar will open in a popup on this page. You won't leave the website.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Appointment Info */}
+              <div className="mt-12 pt-8 border-t border-gray-200">
+                <h4 className="text-lg font-bold text-center mb-6 text-gray-900">Appointment Types</h4>
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-md transition-shadow text-center">
+                    <div className="text-3xl font-bold text-primary mb-3">30 min</div>
+                    <h5 className="text-lg font-bold text-gray-900 mb-2">Diagnostic Session</h5>
+                    <p className="text-gray-600 text-sm mb-4">Initial assessment & quote</p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowCalendly(true)}
+                      className="w-full"
+                    >
+                      Book Diagnostic
+                    </Button>
+                  </div>
+                  <div className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-md transition-shadow text-center">
+                    <div className="text-3xl font-bold text-primary mb-3">1-2 hrs</div>
+                    <h5 className="text-lg font-bold text-gray-900 mb-2">Service Drop-off</h5>
+                    <p className="text-gray-600 text-sm mb-4">Minor repairs & maintenance</p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowCalendly(true)}
+                      className="w-full"
+                    >
+                      Book Service
+                    </Button>
+                  </div>
+                  <div className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-md transition-shadow text-center">
+                    <div className="text-3xl font-bold text-primary mb-3">Full Day</div>
+                    <h5 className="text-lg font-bold text-gray-900 mb-2">Major Repairs</h5>
+                    <p className="text-gray-600 text-sm mb-4">Complete rebuilds & overhauls</p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowCalendly(true)}
+                      className="w-full"
+                    >
+                      Book Major Repair
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form & Map Section */}
+      <section id="contact-form" className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
             
@@ -217,13 +520,35 @@ const ContactPage: React.FC = () => {
                   </p>
                   <Button
                     variant="primary"
-                    onClick={() => setIsSubmitted(false)}
+                    onClick={() => {
+                      setIsSubmitted(false);
+                      setFormData({
+                        name: '',
+                        email: '',
+                        phone: '',
+                        service: '',
+                        vehicle: '',
+                        message: ''
+                      });
+                    }}
                   >
                     Send Another Message
                   </Button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Error Message */}
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 text-red-800 rounded-xl p-4 mb-4">
+                      <div className="flex items-center">
+                        <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>{error}</span>
+                      </div>
+                    </div>
+                  )}
+                  
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -236,6 +561,8 @@ const ContactPage: React.FC = () => {
                         value={formData.name}
                         onChange={handleChange}
                         required
+                        minLength={2}
+                        maxLength={100}
                         className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                         placeholder="John Smith"
                       />
@@ -252,6 +579,7 @@ const ContactPage: React.FC = () => {
                         value={formData.email}
                         onChange={handleChange}
                         required
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                         className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                         placeholder="john@example.com"
                       />
@@ -270,6 +598,7 @@ const ContactPage: React.FC = () => {
                         value={formData.phone}
                         onChange={handleChange}
                         required
+                        pattern="[0-9\s\-\(\)\+]+"
                         className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                         placeholder="(084) 889-9268"
                       />
@@ -321,10 +650,15 @@ const ContactPage: React.FC = () => {
                       value={formData.message}
                       onChange={handleChange}
                       required
+                      minLength={10}
+                      maxLength={1000}
                       rows={5}
                       className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
                       placeholder="Tell us about your gearbox issue, vehicle details, and any symptoms you're experiencing..."
                     />
+                    <div className="text-right text-sm text-gray-500 mt-1">
+                      {formData.message.length}/1000 characters
+                    </div>
                   </div>
                   
                   <div className="flex items-start space-x-4">
@@ -560,9 +894,9 @@ const ContactPage: React.FC = () => {
                 variant="outline"
                 size="lg"
                 className="border-2 border-white hover:bg-white/10"
-                onClick={() => console.log('Book appointment clicked')}
+                onClick={() => setShowCalendly(true)}
               >
-                📅 BOOK APPOINTMENT
+                📅 BOOK ONLINE APPOINTMENT
               </Button>
               <Button
                 variant="outline"

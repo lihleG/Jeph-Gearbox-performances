@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import emailjs from 'emailjs-com';
 import Button from './ui/Button';
 
 interface FormData {
@@ -10,6 +11,7 @@ interface FormData {
 }
 
 const ContactSection: React.FC = () => {
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -20,6 +22,17 @@ const ContactSection: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // EmailJS Configuration - USING YOUR CREDENTIALS
+  const EMAILJS_SERVICE_ID = 'service_g777v9h';
+  const EMAILJS_TEMPLATE_ID = 'template_kazjldf'; // You'll need to create this template
+  const EMAILJS_USER_ID = 'CbwxXRe6jlSR8y-3F';
+
+  // Initialize EmailJS
+  useEffect(() => {
+    emailjs.init(EMAILJS_USER_ID);
+  }, []);
 
   const services = [
     'Gearbox Diagnostic',
@@ -38,30 +51,76 @@ const ContactSection: React.FC = () => {
       ...prev,
       [name]: value
     }));
+    // Clear error when user starts typing
+    if (error) setError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form
+    if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.service.trim() || !formData.message.trim()) {
+      setError('Please fill in all required fields');
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    console.log('Form submitted:', formData);
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        service: '',
-        message: ''
-      });
-    }, 3000);
+    setError(null);
+
+    try {
+      // Send email using EmailJS
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone,
+        service: formData.service,
+        message: formData.message,
+        timestamp: new Date().toISOString(),
+        to_email: 'info@gearmaster.com' // Your business email
+      };
+
+      const result = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams
+      );
+
+      console.log('Email sent successfully:', result.text);
+
+      // Show success message
+      setIsSubmitted(true);
+      
+      // Reset form after 5 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          service: '',
+          message: ''
+        });
+      }, 5000);
+
+    } catch (error: any) {
+      console.error('Email sending failed:', error);
+      
+      // Provide user-friendly error messages
+      if (error.text) {
+        setError(`Failed to send message: ${error.text}`);
+      } else if (error.status === 0) {
+        setError('Network error. Please check your internet connection and try again.');
+      } else {
+        setError('Failed to send message. Please try again or contact us directly at info@gearmaster.com');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -96,17 +155,43 @@ const ContactSection: React.FC = () => {
                 </div>
                 <h4 className="text-xl font-bold text-gray-900 mb-3">Message Sent Successfully!</h4>
                 <p className="text-gray-600 mb-6">
-                  Thank you for contacting us. We'll get back to you within 24 hours.
+                  Thank you for contacting GearMaster. We'll get back to you within 24 hours.
+                  {formData.email && (
+                    <span className="block mt-2 text-sm">
+                      We've received your inquiry about "{formData.service}"
+                    </span>
+                  )}
                 </p>
                 <Button
                   variant="primary"
-                  onClick={() => setIsSubmitted(false)}
+                  onClick={() => {
+                    setIsSubmitted(false);
+                    setFormData({
+                      name: '',
+                      email: '',
+                      phone: '',
+                      service: '',
+                      message: ''
+                    });
+                  }}
                 >
                   Send Another Message
                 </Button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Error Message */}
+                {error && (
+                  <div className="bg-red-50 border border-red-200 text-red-800 rounded-xl p-4 mb-4">
+                    <div className="flex items-center">
+                      <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span>{error}</span>
+                    </div>
+                  </div>
+                )}
+                
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -119,6 +204,8 @@ const ContactSection: React.FC = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
+                      minLength={2}
+                      maxLength={100}
                       className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                       placeholder="John Smith"
                     />
@@ -135,6 +222,7 @@ const ContactSection: React.FC = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                       className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                       placeholder="john@example.com"
                     />
@@ -153,6 +241,7 @@ const ContactSection: React.FC = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       required
+                      pattern="[0-9\s\-\(\)\+]+"
                       className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                       placeholder="(123) 456-7890"
                     />
@@ -188,16 +277,22 @@ const ContactSection: React.FC = () => {
                     value={formData.message}
                     onChange={handleChange}
                     required
+                    minLength={10}
+                    maxLength={1000}
                     rows={5}
                     className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
                     placeholder="Tell us about your gearbox issue, vehicle details, and any symptoms you're experiencing..."
                   />
+                  <div className="text-right text-sm text-gray-500 mt-1">
+                    {formData.message.length}/1000 characters
+                  </div>
                 </div>
                 
                 <div className="flex items-center space-x-4">
                   <input
                     type="checkbox"
                     id="consent"
+                    name="consent"
                     required
                     className="w-5 h-5 text-primary rounded focus:ring-primary focus:ring-2"
                   />
@@ -370,7 +465,7 @@ const ContactSection: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                   </svg>
                 }
-                onClick={() => console.log('Emergency service clicked')}
+                onClick={() => window.location.href = 'tel:1234567890'}
               >
                 CALL EMERGENCY HOTLINE: (123) 456-7890
               </Button>
@@ -393,7 +488,7 @@ const ContactSection: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                   </svg>
                 }
-                onClick={() => console.log('Call now clicked')}
+                onClick={() => window.location.href = 'tel:1234567890'}
               >
                 Call Now
               </Button>
@@ -404,7 +499,7 @@ const ContactSection: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                   </svg>
                 }
-                onClick={() => console.log('Book appointment clicked')}
+                onClick={() => window.location.href = '#contact'}
               >
                 Book Appointment
               </Button>
@@ -416,7 +511,7 @@ const ContactSection: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                   </svg>
                 }
-                onClick={() => console.log('Get directions clicked')}
+                onClick={() => window.open('https://maps.google.com/?q=Unit+1-3,+Verona+Industrial+Park+23+Staal+St,+Randburg,+2169', '_blank')}
               >
                 Get Directions
               </Button>
