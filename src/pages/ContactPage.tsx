@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // Removed useRef
 import emailjs from 'emailjs-com';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -14,7 +14,7 @@ interface FormData {
 }
 
 const ContactPage: React.FC = () => {
-  const formRef = useRef<HTMLFormElement>(null);
+  // Removed: const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',

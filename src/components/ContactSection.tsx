@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // Removed useRef
 import emailjs from 'emailjs-com';
 import Button from './ui/Button';
 
@@ -11,7 +11,7 @@ interface FormData {
 }
 
 const ContactSection: React.FC = () => {
-  const formRef = useRef<HTMLFormElement>(null);
+  // Removed: const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
