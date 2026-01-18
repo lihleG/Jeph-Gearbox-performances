@@ -155,7 +155,7 @@ const ContactSection: React.FC = () => {
                 </div>
                 <h4 className="text-xl font-bold text-gray-900 mb-3">Message Sent Successfully!</h4>
                 <p className="text-gray-600 mb-6">
-                  Thank you for contacting GearMaster. We'll get back to you within 24 hours.
+                  Thank you for contacting Jeph Gearbox performances. We'll get back to you within 24 hours.
                   {formData.email && (
                     <span className="block mt-2 text-sm">
                       We've received your inquiry about "{formData.service}"
@@ -297,7 +297,7 @@ const ContactSection: React.FC = () => {
                     className="w-5 h-5 text-primary rounded focus:ring-primary focus:ring-2"
                   />
                   <label htmlFor="consent" className="text-sm text-gray-600">
-                    I agree to the terms and conditions and allow GearMaster to contact me regarding my inquiry.
+                    I agree to the terms and conditions and allow Jeph Gearbox performances to contact me regarding my inquiry.
                   </label>
                 </div>
                 
@@ -375,7 +375,7 @@ const ContactSection: React.FC = () => {
                   </div>
                 </div>
                 <a href="mailto:info@gearmaster.com" className="text-xl font-bold text-gray-900 hover:text-primary transition-colors break-all">
-                  info@gearmaster.com
+                  jephiasmabuyane08@gmail.com
                 </a>
                 <p className="text-sm text-gray-500 mt-2">24/7 email support</p>
               </div>
@@ -467,7 +467,7 @@ const ContactSection: React.FC = () => {
                 }
                 onClick={() => window.location.href = 'tel:1234567890'}
               >
-                CALL EMERGENCY HOTLINE: (123) 456-7890
+                CALL EMERGENCY HOTLINE: (084) 889-9268
               </Button>
             </div>
           </div>
