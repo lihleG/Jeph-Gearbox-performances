@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
             <div className="flex items-center space-x-3 mb-6">
               <div className="w-12 h-12 rounded-lg overflow-hidden flex items-center justify-center">
                 <img 
-                  src="/gearbox.png" 
+                  src="/images/gearbox.png" 
                   alt="GearMaster Logo" 
                   className="w-full h-full object-contain"
                   onError={(e) => {
@@ -30,8 +30,8 @@ const Footer: React.FC = () => {
                 />
               </div>
               <div>
-                <h3 className="text-xl font-bold">GearMaster</h3>
-                <p className="text-sm text-gray-400">Gearbox Specialists</p>
+                <h3 className="text-xl font-bold">Jeph</h3>
+                <p className="text-sm text-gray-400">Gearbox performances</p>
               </div>
             </div>
             <p className="text-gray-400 mb-6">

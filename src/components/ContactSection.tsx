@@ -357,7 +357,7 @@ const ContactSection: React.FC = () => {
                   </div>
                 </div>
                 <a href="tel:1234567890" className="text-2xl font-bold text-gray-900 hover:text-primary transition-colors">
-                  (123) 456-7890
+                  (084) 889-9268
                 </a>
                 <p className="text-sm text-gray-500 mt-2">Mon-Fri: 8AM-6PM, Sat: 9AM-1PM</p>
               </div>
