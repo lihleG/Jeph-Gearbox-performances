@@ -8,6 +8,7 @@ import WarrantyPage from './pages/WarrantyPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage'; 
 
+
 function App() {
   return (
     <Routes>
@@ -16,6 +17,7 @@ function App() {
       <Route path="/warranty" element={<WarrantyPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/contact" element={<ContactPage />} /> 
+      <Route path="/services" element={<ServicesPage />} />
       {/* You can add more routes here as needed */}
     </Routes>
   );

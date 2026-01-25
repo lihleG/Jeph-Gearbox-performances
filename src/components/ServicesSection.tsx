@@ -95,6 +95,34 @@ const ServicesSection: React.FC = () => {
         </svg>
       ),
       note: 'If gearbox fails, we replace it'
+    },
+    {
+      id: 7,
+      title: 'Towing Service',
+      description: 'Reliable vehicle towing service to bring your car safely to our workshop for repairs.',
+      features: ['24/7 availability', 'Safe & secure transport', 'Quick response time', 'Insurance approved'],
+      price: 'R1300',
+      warranty: 'Service guarantee',
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h8m0 0v8m0-8l3 3m-3-3l-3 3m-5 5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      ),
+      note: 'Free with major repair service'
+    },
+    {
+      id: 8,
+      title: 'Gearbox Oil Service',
+      description: 'Professional gearbox oil change using original manufacturer-approved transmission oil.',
+      features: ['Original manufacturer oil', 'Full system flush', 'Filter replacement included', 'Quality assurance'],
+      price: 'From R1500',
+      warranty: '6 Months',
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+        </svg>
+      ),
+      note: 'Uses original transmission oil only'
     }
   ];
 
@@ -115,7 +143,7 @@ const ServicesSection: React.FC = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {services.map((service) => (
             <div 
               key={service.id}
@@ -225,7 +253,13 @@ const ServicesSection: React.FC = () => {
                   <div className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center mr-3 mt-1">
                     <span className="text-white text-sm">3</span>
                   </div>
-                  <p className="text-gray-300">Deposit amount varies according to the size and scope of the repair job.</p>
+                  <p className="text-gray-300">All gearbox services use original manufacturer-approved transmission oil for optimal performance.</p>
+                </div>
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center mr-3 mt-1">
+                    <span className="text-white text-sm">4</span>
+                  </div>
+                  <p className="text-gray-300">Towing service available 24/7 at R1300, with free towing offered for major repair services.</p>
                 </div>
               </div>
             </div>
@@ -250,20 +284,36 @@ const ServicesSection: React.FC = () => {
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Not sure which service you need? Get a free diagnostic assessment from our experts.
           </p>
-          <Link to="/services" className="inline-block no-underline">
-            <Button
-              variant="primary"
-              size="lg"
-              icon={
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                </svg>
-              }
-              className="shadow-xl hover:shadow-2xl"
-            >
-              SCHEDULE FREE DIAGNOSTIC
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/services" className="inline-block no-underline">
+              <Button
+                variant="primary"
+                size="lg"
+                icon={
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                  </svg>
+                }
+                className="shadow-xl hover:shadow-2xl"
+              >
+                SCHEDULE FREE DIAGNOSTIC
+              </Button>
+            </Link>
+            <Link to="/contact" className="inline-block no-underline">
+              <Button
+                variant="outline"
+                size="lg"
+                icon={
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h8m0 0v8m0-8l3 3m-3-3l-3 3m-5 5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                }
+                className="border-primary text-primary hover:bg-primary/10"
+              >
+                REQUEST TOWING SERVICE
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </section>

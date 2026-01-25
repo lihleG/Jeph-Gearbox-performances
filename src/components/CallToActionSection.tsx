@@ -40,8 +40,9 @@ const CallToActionSection: React.FC = () => {
                   </svg>
                 </div>
                 <div className="text-2xl font-bold mb-2">Call Us</div>
-                <div className="text-xl font-semibold">(123) 456-7890</div>
-                <div className="text-gray-300 text-sm mt-2">Mon-Fri: 8AM-6PM</div>
+                <div className="text-xl font-semibold">(010) 017-6733</div>
+                <div className="text-gray-300 text-sm mt-2">Mon-Fri: 8AM-4PM</div>
+                <div className="text-gray-300 text-sm mt-2">Sat-Sun: 8AM-3PM</div>
               </div>
 
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
@@ -51,7 +52,7 @@ const CallToActionSection: React.FC = () => {
                   </svg>
                 </div>
                 <div className="text-2xl font-bold mb-2">Email Us</div>
-                <div className="text-xl font-semibold">info@gearmaster.com</div>
+                <div className="text-xl font-semibold">jephiasmabuyane08@gmail.com</div>
                 <div className="text-gray-300 text-sm mt-2">24/7 Response</div>
               </div>
 
@@ -63,8 +64,8 @@ const CallToActionSection: React.FC = () => {
                   </svg>
                 </div>
                 <div className="text-2xl font-bold mb-2">Visit Us</div>
-                <div className="text-xl font-semibold">123 Mechanic St</div>
-                <div className="text-gray-300 text-sm mt-2">Auto City, 12345</div>
+                <div className="text-xl font-semibold">UNIT 1-3, Verona industrial Park,</div>
+                <div className="text-gray-300 text-sm mt-2">23 Staal St, Randburg, 2169</div>
               </div>
             </div>
 
