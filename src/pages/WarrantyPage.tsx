@@ -107,7 +107,7 @@ const WarrantyPage: React.FC = () => {
       <Navbar />
       
       {/* Warranty Hero Section with gearbox1 image */}
-      <section className="relative pt-32 pb-20 bg-gradient-to-br from-primary/90 to-primary-dark/90 text-white overflow-hidden">
+      <section className="relative pt-32 pb-20 bg-gradient-to-br from-blue-900/90 to-gray-900/90 text-white overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img 
@@ -115,7 +115,7 @@ const WarrantyPage: React.FC = () => {
             alt="Gearbox Components"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary-dark/80 mix-blend-multiply"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-gray-900/80 mix-blend-multiply"></div>
         </div>
         
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
@@ -124,7 +124,7 @@ const WarrantyPage: React.FC = () => {
               <span className="font-bold text-sm tracking-wider">PEACE OF MIND GUARANTEE</span>
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-              Our <span className="text-secondary">Warranty</span> Promise
+              Our <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">Warranty</span> Promise
             </h1>
             <p className="text-xl mb-10 max-w-3xl mx-auto opacity-90">
               Backed by South Africa's most comprehensive gearbox warranty. We stand behind every repair with confidence.
@@ -156,7 +156,7 @@ const WarrantyPage: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Comprehensive <span className="text-gradient">Warranty Coverage</span>
+              Comprehensive <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">Warranty Coverage</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               We provide industry-leading warranty protection for all our gearbox services
@@ -167,7 +167,7 @@ const WarrantyPage: React.FC = () => {
             {warrantyTerms.map((term, index) => (
               <div 
                 key={index}
-                className="bg-gray-50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-primary/20 hover:-translate-y-1"
+                className="bg-gray-50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-600/20 hover:-translate-y-1"
               >
                 <div className="text-3xl mb-4">{term.icon}</div>
                 <h3 className="text-xl font-bold mb-2 text-gray-900">{term.title}</h3>
@@ -175,7 +175,7 @@ const WarrantyPage: React.FC = () => {
                 <ul className="space-y-2">
                   {term.details.map((detail, idx) => (
                     <li key={idx} className="flex items-start text-sm text-gray-700">
-                      <svg className="w-4 h-4 text-primary mt-1 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <svg className="w-4 h-4 text-blue-600 mt-1 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
                       </svg>
                       {detail}
@@ -202,28 +202,28 @@ const WarrantyPage: React.FC = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                 <div className="absolute bottom-6 left-6">
-                  <div className="inline-flex items-center px-4 py-2 bg-primary/90 backdrop-blur-sm rounded-full">
+                  <div className="inline-flex items-center px-4 py-2 bg-blue-600/90 backdrop-blur-sm rounded-full">
                     <span className="text-white font-semibold">Professional Quality</span>
                   </div>
                 </div>
               </div>
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-secondary rounded-full opacity-20"></div>
-              <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-primary rounded-full opacity-20"></div>
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-blue-400 rounded-full opacity-20"></div>
+              <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-blue-600 rounded-full opacity-20"></div>
             </div>
 
             {/* Coverage Lists Column */}
             <div className="space-y-8">
               {/* What's Covered */}
               <div className="bg-white rounded-2xl p-8 shadow-lg">
-                <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full mb-6">
+                <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full mb-6">
                   <span className="font-bold">WHAT'S COVERED</span>
                 </div>
                 <h3 className="text-3xl font-bold mb-6 text-gray-900">Full Protection Included</h3>
                 <ul className="space-y-4">
                   {coverageItems.map((item, index) => (
                     <li key={index} className="flex items-center">
-                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                        <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                        <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
                         </svg>
                       </div>
@@ -263,26 +263,26 @@ const WarrantyPage: React.FC = () => {
                 <h4 className="text-xl font-bold mb-4 text-gray-900">Valid Warranty Requirements</h4>
                 <ul className="space-y-3">
                   <li className="flex items-start">
-                    <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mr-3 mt-1">
-                      <span className="text-primary text-sm">✓</span>
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                      <span className="text-blue-600 text-sm">✓</span>
                     </div>
                     <span>Original warranty certificate must be presented</span>
                   </li>
                   <li className="flex items-start">
-                    <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mr-3 mt-1">
-                      <span className="text-primary text-sm">✓</span>
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                      <span className="text-blue-600 text-sm">✓</span>
                     </div>
                     <span>Vehicle must have current registration and license</span>
                   </li>
                   <li className="flex items-start">
-                    <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mr-3 mt-1">
-                      <span className="text-primary text-sm">✓</span>
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                      <span className="text-blue-600 text-sm">✓</span>
                     </div>
                     <span>Recommended service intervals must be followed</span>
                   </li>
                   <li className="flex items-start">
-                    <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mr-3 mt-1">
-                      <span className="text-primary text-sm">✓</span>
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                      <span className="text-blue-600 text-sm">✓</span>
                     </div>
                     <span>Only approved transmission fluids may be used</span>
                   </li>
@@ -292,26 +292,26 @@ const WarrantyPage: React.FC = () => {
                 <h4 className="text-xl font-bold mb-4 text-gray-900">Claim Process</h4>
                 <ul className="space-y-3">
                   <li className="flex items-start">
-                    <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mr-3 mt-1">
-                      <span className="text-primary text-sm">1</span>
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                      <span className="text-blue-600 text-sm">1</span>
                     </div>
                     <span>Contact us immediately when an issue arises</span>
                   </li>
                   <li className="flex items-start">
-                    <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mr-3 mt-1">
-                      <span className="text-primary text-sm">2</span>
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                      <span className="text-blue-600 text-sm">2</span>
                     </div>
                     <span>Do not attempt repairs yourself during warranty</span>
                   </li>
                   <li className="flex items-start">
-                    <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mr-3 mt-1">
-                      <span className="text-primary text-sm">3</span>
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                      <span className="text-blue-600 text-sm">3</span>
                     </div>
                     <span>Bring vehicle to our workshop for assessment</span>
                   </li>
                   <li className="flex items-start">
-                    <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mr-3 mt-1">
-                      <span className="text-primary text-sm">4</span>
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                      <span className="text-blue-600 text-sm">4</span>
                     </div>
                     <span>Approved claims repaired within 48-72 hours</span>
                   </li>
@@ -327,7 +327,7 @@ const WarrantyPage: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Warranty <span className="text-gradient">Process</span>
+              Warranty <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">Process</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Simple steps from warranty registration to claim resolution
@@ -338,8 +338,8 @@ const WarrantyPage: React.FC = () => {
             {/* Process Steps */}
             <div className="grid md:grid-cols-2 gap-6">
               {warrantyProcess.map((process) => (
-                <div key={process.step} className="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-primary/30 transition-colors">
-                  <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white text-xl font-bold mb-4">
+                <div key={process.step} className="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-blue-600/30 transition-colors">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 rounded-full flex items-center justify-center text-white text-xl font-bold mb-4">
                     {process.step}
                   </div>
                   <h4 className="text-xl font-bold mb-3 text-gray-900">{process.title}</h4>
@@ -358,12 +358,12 @@ const WarrantyPage: React.FC = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                 <div className="absolute top-6 right-6">
-                  <div className="inline-flex items-center px-4 py-2 bg-primary/90 backdrop-blur-sm rounded-full">
+                  <div className="inline-flex items-center px-4 py-2 bg-blue-600/90 backdrop-blur-sm rounded-full">
                     <span className="text-white font-semibold">Premium Components</span>
                   </div>
                 </div>
                 <div className="absolute bottom-6 left-6">
-                  <div className="inline-flex items-center px-4 py-2 bg-secondary/90 backdrop-blur-sm rounded-full">
+                  <div className="inline-flex items-center px-4 py-2 bg-blue-400/90 backdrop-blur-sm rounded-full">
                     <span className="text-white font-semibold">Quality Guaranteed</span>
                   </div>
                 </div>
@@ -378,7 +378,7 @@ const WarrantyPage: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Warranty <span className="text-gradient">FAQ</span>
+              Warranty <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">FAQ</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Common questions about our warranty coverage
@@ -411,7 +411,7 @@ const WarrantyPage: React.FC = () => {
               ].map((faq, index) => (
                 <div key={index} className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
                   <h4 className="text-xl font-bold mb-3 text-gray-900 flex items-center">
-                    <svg className="w-6 h-6 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="w-6 h-6 text-blue-600 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd"></path>
                     </svg>
                     {faq.q}
@@ -425,7 +425,7 @@ const WarrantyPage: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary to-primary-dark text-white">
+      <section className="py-20 bg-gradient-to-r from-blue-900 to-gray-900 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Have Warranty Questions?
@@ -437,7 +437,7 @@ const WarrantyPage: React.FC = () => {
             <Button
               variant="secondary"
               size="lg"
-              className="bg-white text-primary hover:bg-gray-100"
+              className="bg-white text-blue-600 hover:bg-gray-100"
               onClick={() => console.log('Call now clicked')}
             >
               📞 CALL FOR WARRANTY INFO

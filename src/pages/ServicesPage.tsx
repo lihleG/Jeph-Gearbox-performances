@@ -174,14 +174,14 @@ const ServicesPage: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       
-      <section className="pt-32 pb-20 bg-gradient-to-br from-gray-900 to-blue-900 text-white">
+      <section className="pt-32 pb-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center px-4 py-2 bg-blue-600/20 rounded-full mb-6">
-              <span className="text-blue-400 font-bold text-sm tracking-wider">OUR SERVICES</span>
+            <div className="inline-flex items-center px-4 py-2 bg-primary/20 rounded-full mb-6">
+              <span className="text-primary font-bold text-sm tracking-wider">OUR SERVICES</span>
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-              Professional <span className="bg-gradient-to-r from-blue-500 to-blue-300 bg-clip-text text-transparent">Gearbox Services</span>
+              Professional <span className="text-gradient">Gearbox Services</span>
             </h1>
             <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto">
               Expert gearbox diagnostics, repair, and parts supply with comprehensive warranties. 
@@ -226,9 +226,9 @@ const ServicesPage: React.FC = () => {
                         className="w-full h-64 md:h-80 object-cover transform hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                       <div className="absolute bottom-6 left-6">
-                        <div className="inline-flex items-center px-4 py-2 bg-blue-600/90 backdrop-blur-sm rounded-full">
+                        <div className="inline-flex items-center px-4 py-2 bg-primary/90 backdrop-blur-sm rounded-full">
                           <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center mr-2">
                             {service.icon}
                           </div>
@@ -240,10 +240,8 @@ const ServicesPage: React.FC = () => {
 
                   <div className={`${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'}`}>
                     <div className="flex items-center mb-4">
-                      <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mr-4 border border-blue-100">
-                        <div className="text-blue-600">
-                          {service.icon}
-                        </div>
+                      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mr-4">
+                        {service.icon}
                       </div>
                       <h2 className="text-3xl font-bold text-gray-900">{service.title}</h2>
                     </div>
@@ -253,21 +251,21 @@ const ServicesPage: React.FC = () => {
                     </p>
                     
                     <div className="grid md:grid-cols-2 gap-6 mb-8">
-                      <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                        <div className="text-sm text-blue-600 mb-1">Starting From</div>
-                        <div className="text-2xl font-bold text-blue-700">{service.priceRange}</div>
+                      <div className="bg-gray-50 rounded-xl p-4">
+                        <div className="text-sm text-gray-500 mb-1">Starting From</div>
+                        <div className="text-2xl font-bold text-primary">{service.priceRange}</div>
                       </div>
-                      <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                        <div className="text-sm text-blue-600 mb-1">Warranty</div>
-                        <div className="text-2xl font-bold text-blue-700">{service.warranty}</div>
+                      <div className="bg-gray-50 rounded-xl p-4">
+                        <div className="text-sm text-gray-500 mb-1">Warranty</div>
+                        <div className="text-2xl font-bold text-primary">{service.warranty}</div>
                       </div>
-                      <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                        <div className="text-sm text-blue-600 mb-1">Typical Time</div>
-                        <div className="text-2xl font-bold text-blue-700">{service.typicalTime}</div>
+                      <div className="bg-gray-50 rounded-xl p-4">
+                        <div className="text-sm text-gray-500 mb-1">Typical Time</div>
+                        <div className="text-2xl font-bold text-primary">{service.typicalTime}</div>
                       </div>
-                      <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                        <div className="text-sm text-blue-600 mb-1">Deposit Required</div>
-                        <div className="text-2xl font-bold text-blue-700">Based on job</div>
+                      <div className="bg-gray-50 rounded-xl p-4">
+                        <div className="text-sm text-gray-500 mb-1">Deposit Required</div>
+                        <div className="text-2xl font-bold text-primary">Based on job</div>
                       </div>
                     </div>
 
@@ -276,7 +274,7 @@ const ServicesPage: React.FC = () => {
                       <div className="space-y-3">
                         {service.features.map((feature, idx) => (
                           <div key={idx} className="flex items-center">
-                            <svg className="w-5 h-5 text-blue-600 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <svg className="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
                             </svg>
                             <span className="text-gray-700">{feature}</span>
@@ -287,7 +285,7 @@ const ServicesPage: React.FC = () => {
 
                     <Button
                       variant="primary"
-                      className="w-full md:w-auto bg-blue-600 hover:bg-blue-700"
+                      className="w-full md:w-auto"
                       onClick={() => console.log(`Inquire about ${service.title}`)}
                     >
                       INQUIRE ABOUT THIS SERVICE
@@ -298,7 +296,7 @@ const ServicesPage: React.FC = () => {
                 {index < services.length - 1 && (
                   <div className="mt-20 pt-8 border-t border-gray-200">
                     <div className="flex justify-center">
-                      <div className="w-24 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
+                      <div className="w-24 h-1 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
                     </div>
                   </div>
                 )}
@@ -312,7 +310,7 @@ const ServicesPage: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Our Service <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">Process</span>
+              Our Service <span className="text-gradient">Process</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               From initial contact to final delivery, we follow a systematic process to ensure quality and satisfaction.
@@ -328,7 +326,7 @@ const ServicesPage: React.FC = () => {
               { step: '05', title: 'Testing', desc: 'Rigorous testing and quality check' }
             ].map((process) => (
               <div key={process.step} className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-800 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
                   {process.step}
                 </div>
                 <h4 className="font-bold text-lg mb-2">{process.title}</h4>
@@ -339,7 +337,7 @@ const ServicesPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-gradient-to-r from-blue-900 to-gray-900 text-white">
+      <section className="py-20 bg-gradient-to-r from-primary to-primary-dark text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Ready to Get Your Gearbox Fixed?
@@ -351,7 +349,7 @@ const ServicesPage: React.FC = () => {
             <Button
               variant="secondary"
               size="lg"
-              className="bg-white text-blue-600 hover:bg-gray-100"
+              className="bg-white text-primary hover:bg-gray-100"
               onClick={() => console.log('Call now clicked')}
             >
               📞 CALL NOW: (010) 017 -6733
